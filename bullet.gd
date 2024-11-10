@@ -10,7 +10,7 @@ func _ready():
 	# Set the initial linear velocity based on the bullet's forward direction
 	linear_velocity = transform.basis.z * SPEED
 
-func _process(delta: float):
+func _process(_delta: float):
 	# Optionally, destroy the bullet after some time
 	if global_transform.origin.distance_to(Vector3.ZERO) > 100:  # Example limit
 		queue_free()

@@ -1,133 +1,46 @@
 extends CharacterBody3D
 
-# =====================
-# Constants
-# =====================
-
-# Movement Constants
 const WALK_SPEED: float = 5.0
 const SPRINT_SPEED: float = 8.0
-const JUMP_VELOCITY: float = 4.8
-const GRAVITY: float = 9.8
-
-# Look/Camera Constants
-const SENSITIVITY: float = 0.004
+const JUMP_VELOCITY: float = 5.0
+const GRAVITY: float = 7.0
+const SENSITIVITY: float = 0.005
 const BASE_FOV: float = 75.0
 const FOV_CHANGE: float = 1.5
-
-# Head Bobbing Constants
 const BOB_FREQ: float = 2.4
 const BOB_AMP: float = 0.08
-
-# Shooting Constants
 const SHOOT_DISTANCE: float = 100.0
 const SHOOT_DAMAGE: int = 10
-const FIRE_RATE: float = 0.2
+const FIRE_RATE: float = 0.1
 
-# =====================
-# Variables
-# =====================
-
-# Movement Variables
 var speed: float = WALK_SPEED
-
-# Head Bobbing Variables
 var t_bob: float = 0.0
-
-# Shooting Variables
 var can_shoot: bool = true
-
-# Camera Position
 var camera_base_pos: Vector3
-
-# =====================
-# Node References
-# =====================
 
 @onready var head: Node3D = $Head
 @onready var camera: Camera3D = $Head/Camera3D
 @onready var gun: Node3D = $Head/Camera3D/Gun
-@onready var bullet_scene = preload("res://bullet.tscn")
-@onready var bullet_spawn_marker = $Head/Camera3D/BulletSpawnMarker
-
-# =====================
-# Lifecycle Functions
-# =====================
+@onready var bullet_scene: PackedScene = preload("res://9mm_bullet.tscn")
+@onready var bullet_spawn_marker: Marker3D = $Head/Camera3D/Gun/BulletSpawnMarker
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	camera_base_pos = camera.transform.origin
-
-	# Debug: Ensure BulletSpawnMarker is valid
-	if bullet_spawn_marker and bullet_spawn_marker.is_inside_tree():
-		print("BulletSpawnMarker is valid and ready.")
-	else:
-		print("Error: BulletSpawnMarker is not set up correctly.")
-
-
-# =====================
-# Input Handling
-# =====================
-
-func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion:
-		_handle_mouse_motion(event)
-
-func _handle_mouse_motion(event: InputEventMouseMotion) -> void:
-	# Rotate the head horizontally
-	head.rotate_y(deg_to_rad(-event.relative.x * SENSITIVITY * 100))  # Convert sensitivity to radians
-	
-	# Rotate the camera vertically
-	camera.rotate_x(deg_to_rad(-event.relative.y * SENSITIVITY * 100))
-	
-	# Clamp the camera's vertical rotation to prevent flipping
-	camera.rotation_degrees.x = clamp(camera.rotation_degrees.x, -40, 60)
-
-# =====================
-# Shooting Mechanics
-# =====================
-
-func _shoot() -> void:
 	if not can_shoot:
 		return
-
-	# Start cooldown
 	can_shoot = false
-	await get_tree().create_timer(FIRE_RATE).timeout
-	can_shoot = true
-
 	# Instance the bullet
 	if bullet_scene:
 		var bullet = bullet_scene.instantiate() as RigidBody3D
-
 		# Set bullet transform to match the bullet_spawn_marker
 		bullet.global_transform = bullet_spawn_marker.global_transform
-
 		# Add bullet to the scene
-		get_tree().get_current_scene().add_child(bullet)
-
-		print("Shot fired")
-
-	# Placeholder for effects (muzzle flash, sound, etc.)
-
+		get_tree().get_current_scene().add_child.call_deferred(bullet)
+	# Start cooldown
+	await get_tree().create_timer(FIRE_RATE).timeout
+	can_shoot = true
 	print("Shot fired")
-
-func _perform_raycast() -> Dictionary:
-	var ray_origin: Vector3 = camera.global_transform.origin
-	var ray_direction: Vector3 = -camera.global_transform.basis.z.normalized()
-	var ray_target: Vector3 = ray_origin + ray_direction * SHOOT_DISTANCE
-	
-	var space_state = get_world_3d().direct_space_state
-	var ray_query = PhysicsRayQueryParameters3D.new()
-	ray_query.from = ray_origin
-	ray_query.to = ray_target
-	ray_query.exclude = [self]  # Exclude self to prevent self-hit
-	
-	return space_state.intersect_ray(ray_query)
-
-# =====================
-# Physics Processing
-# =====================
 
 func _physics_process(delta: float) -> void:
 	_apply_gravity(delta)
@@ -137,6 +50,34 @@ func _physics_process(delta: float) -> void:
 	_update_fov(delta)
 	
 	move_and_slide()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion:
+		_handle_mouse_motion(event)
+
+func _handle_mouse_motion(event: InputEventMouseMotion) -> void:
+	# Rotate the head horizontally
+	head.rotate_y(deg_to_rad(-event.relative.x * SENSITIVITY * 100))  # Convert sensitivity to radians
+	# Rotate the camera vertically
+	camera.rotate_x(deg_to_rad(-event.relative.y * SENSITIVITY * 100))
+	# Clamp the camera's vertical rotation to prevent flipping
+	camera.rotation_degrees.x = clamp(camera.rotation_degrees.x, -40, 60)
+
+func _shoot() -> void:
+	if not can_shoot:
+		return
+	can_shoot = false
+	# Instance the bullet
+	if bullet_scene:
+		var bullet = bullet_scene.instantiate() as RigidBody3D
+		# Set bullet transform to match the bullet_spawn_marker
+		bullet.global_transform = bullet_spawn_marker.global_transform
+		# Add bullet to the scene
+		get_tree().get_current_scene().add_child(bullet)
+	# Start cooldown
+	await get_tree().create_timer(FIRE_RATE).timeout
+	can_shoot = true
+	print("Shot fired")
 
 # Apply gravity to the character
 func _apply_gravity(delta: float) -> void:
@@ -171,8 +112,8 @@ func _handle_movement(delta: float) -> void:
 			velocity.z = direction.z * speed
 		else:
 			# Gradually decelerate to 0 when no input
-			velocity.x = lerp(velocity.x, 0.0, delta * 7.0)  # Changed 0 to 0.0
-			velocity.z = lerp(velocity.z, 0.0, delta * 7.0)  # Changed 0 to 0.0
+			velocity.x = lerp(velocity.x, 0.0, delta * 7.0)
+			velocity.z = lerp(velocity.z, 0.0, delta * 7.0)
 	else:
 		# Apply air control with slower acceleration
 		velocity.x = lerp(velocity.x, direction.x * speed, delta * 3.0)
@@ -192,10 +133,6 @@ func _update_fov(delta: float) -> void:
 	var velocity_clamped: float = clamp(velocity.length(), 0.5, SPRINT_SPEED * 2)
 	var target_fov: float = BASE_FOV + FOV_CHANGE * velocity_clamped
 	camera.fov = lerp(camera.fov, target_fov, delta * 8.0)
-
-# =====================
-# Utility Functions
-# =====================
 
 # Calculate head bob offset based on time
 func _calculate_head_bob(time: float) -> Vector3:

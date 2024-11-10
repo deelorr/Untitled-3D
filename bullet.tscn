@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://d08jtfs3gnpit"]
+[gd_scene load_steps=4 format=3 uid="uid://d08jtfs3gnpit"]
 
 [ext_resource type="Script" path="res://bullet.gd" id="1_m5fdt"]
+[ext_resource type="PackedScene" uid="uid://jhcj3r1ppehc" path="res://9mm-bullet/source/9mm_bullet.fbx" id="2_ovk4x"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_7ymun"]
 
@@ -9,5 +10,7 @@ transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.35, 0, 0, 0)
 script = ExtResource("1_m5fdt")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.04032, 0, 0, 0, -1.71349e-09, -0.0432, 0, 0.0391999, -1.88833e-09, 0, 0, 0)
+transform = Transform3D(0.028224, 0, 0, 0, -3.47838e-09, -0.02592, 0, 0.0795758, -1.133e-09, 0, 0, 0)
 mesh = SubResource("CylinderMesh_7ymun")
+
+[node name="9mm_bullet" parent="." instance=ExtResource("2_ovk4x")]
