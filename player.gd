@@ -46,15 +46,24 @@ var camera_base_pos: Vector3
 
 @onready var head: Node3D = $Head
 @onready var camera: Camera3D = $Head/Camera3D
-@onready var gun: Node3D = $Head/Gun
+@onready var gun: Node3D = $Head/Camera3D/Gun
+@onready var bullet_scene = preload("res://bullet.tscn")
+@onready var bullet_spawn_marker = $Head/Camera3D/BulletSpawnMarker
 
 # =====================
 # Lifecycle Functions
 # =====================
 
-func _ready():
+func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	camera_base_pos = camera.transform.origin
+
+	# Debug: Ensure BulletSpawnMarker is valid
+	if bullet_spawn_marker and bullet_spawn_marker.is_inside_tree():
+		print("BulletSpawnMarker is valid and ready.")
+	else:
+		print("Error: BulletSpawnMarker is not set up correctly.")
+
 
 # =====================
 # Input Handling
@@ -81,18 +90,26 @@ func _handle_mouse_motion(event: InputEventMouseMotion) -> void:
 func _shoot() -> void:
 	if not can_shoot:
 		return
-	
+
 	# Start cooldown
 	can_shoot = false
 	await get_tree().create_timer(FIRE_RATE).timeout
 	can_shoot = true
-	
-	# Perform raycast and apply damage if hit
-	var result = _perform_raycast()
-	if result and result.collider and result.collider.has_method("apply_damage"):
-		result.collider.apply_damage(SHOOT_DAMAGE)
-	
+
+	# Instance the bullet
+	if bullet_scene:
+		var bullet = bullet_scene.instantiate() as RigidBody3D
+
+		# Set bullet transform to match the bullet_spawn_marker
+		bullet.global_transform = bullet_spawn_marker.global_transform
+
+		# Add bullet to the scene
+		get_tree().get_current_scene().add_child(bullet)
+
+		print("Shot fired")
+
 	# Placeholder for effects (muzzle flash, sound, etc.)
+
 	print("Shot fired")
 
 func _perform_raycast() -> Dictionary:
