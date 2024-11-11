@@ -2,21 +2,21 @@ extends CharacterBody3D
 
 const WALK_SPEED: float = 5.0
 const SPRINT_SPEED: float = 8.0
-const JUMP_VELOCITY: float = 5.0
-const GRAVITY: float = 7.0
-const SENSITIVITY: float = 0.005
+const JUMP_VELOCITY: float = 4.0
+const GRAVITY: float = 8.0
+const SENSITIVITY: float = 0.003
 const BASE_FOV: float = 75.0
 const FOV_CHANGE: float = 1.5
-const BOB_FREQ: float = 2.4
-const BOB_AMP: float = 0.08
+const BOB_FREQ: float = 3 #2.4
+const BOB_AMP: float =  0.1 #0.08
 const SHOOT_DISTANCE: float = 100.0
 const SHOOT_DAMAGE: int = 10
 const FIRE_RATE: float = 0.1
 
 var speed: float = WALK_SPEED
-var t_bob: float = 0.0
+var head_bob_timer: float = 0.0
 var can_shoot: bool = true
-var camera_base_pos: Vector3
+var camera_start_pos: Vector3
 
 @onready var head: Node3D = $Head
 @onready var camera: Camera3D = $Head/Camera3D
@@ -25,15 +25,15 @@ var camera_base_pos: Vector3
 @onready var bullet_spawn_marker: Marker3D = $Head/Camera3D/Gun/BulletSpawnMarker
 
 func _ready() -> void:
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	camera_base_pos = camera.transform.origin
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED) #keeps mouse in screen during play
+	camera_start_pos = camera.transform.origin #sets cameras home location
 	if not can_shoot:
 		return
 	can_shoot = false
 	# Instance the bullet
 	if bullet_scene:
 		var bullet = bullet_scene.instantiate() as RigidBody3D
-		# Set bullet transform to match the bullet_spawn_marker
+		# Set bullet transform to match the bullet_spawn_marker transform
 		bullet.global_transform = bullet_spawn_marker.global_transform
 		# Add bullet to the scene
 		get_tree().get_current_scene().add_child.call_deferred(bullet)
@@ -57,11 +57,11 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _handle_mouse_motion(event: InputEventMouseMotion) -> void:
 	# Rotate the head horizontally
-	head.rotate_y(deg_to_rad(-event.relative.x * SENSITIVITY * 100))  # Convert sensitivity to radians
+	head.rotate_y(deg_to_rad(-event.relative.x * SENSITIVITY * 100))
 	# Rotate the camera vertically
 	camera.rotate_x(deg_to_rad(-event.relative.y * SENSITIVITY * 100))
 	# Clamp the camera's vertical rotation to prevent flipping
-	camera.rotation_degrees.x = clamp(camera.rotation_degrees.x, -40, 60)
+	camera.rotation_degrees.x = clamp(camera.rotation_degrees.x, -80, 80)
 
 func _shoot() -> void:
 	if not can_shoot:
@@ -86,20 +86,24 @@ func _apply_gravity(delta: float) -> void:
 
 # Handle various player inputs
 func _handle_inputs() -> void:
-	# Quit game
-	if Input.is_action_just_pressed("ui_cancel"):
-		get_tree().quit()
 	
 	# Shooting
-	if Input.is_action_just_pressed("shoot"):
+	if Input.is_action_pressed("shoot"):
 		_shoot()
-	
+		
 	# Jumping
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
-	
+		
 	# Sprinting
-	speed = SPRINT_SPEED if Input.is_action_pressed("sprint") else WALK_SPEED
+	if Input.is_action_just_pressed("sprint"):
+		speed = SPRINT_SPEED
+	else:
+		speed = WALK_SPEED
+		
+	# Quit game
+	if Input.is_action_just_pressed("ui_cancel"):
+		get_tree().quit()
 
 # Handle character movement based on input
 func _handle_movement(delta: float) -> void:
@@ -122,17 +126,11 @@ func _handle_movement(delta: float) -> void:
 # Update camera position for head bobbing effect
 func _update_head_bob(delta: float) -> void:
 	if is_on_floor() and velocity.length() > 0:
-		t_bob += delta * velocity.length()
-		camera.transform.origin = camera_base_pos + _calculate_head_bob(t_bob)
+		head_bob_timer += delta * velocity.length()
+		camera.transform.origin = camera_start_pos + _calculate_head_bob(head_bob_timer)
 	else:
 		# Reset head bobbing when not moving or in air
-		camera.transform.origin = camera_base_pos
-
-# Update camera FOV based on movement speed
-func _update_fov(delta: float) -> void:
-	var velocity_clamped: float = clamp(velocity.length(), 0.5, SPRINT_SPEED * 2)
-	var target_fov: float = BASE_FOV + FOV_CHANGE * velocity_clamped
-	camera.fov = lerp(camera.fov, target_fov, delta * 8.0)
+		camera.transform.origin = camera_start_pos
 
 # Calculate head bob offset based on time
 func _calculate_head_bob(time: float) -> Vector3:
@@ -140,3 +138,9 @@ func _calculate_head_bob(time: float) -> Vector3:
 	pos.y = sin(time * BOB_FREQ) * BOB_AMP
 	pos.x = cos(time * BOB_FREQ / 2) * BOB_AMP
 	return pos
+	
+# Update camera FOV based on movement speed
+func _update_fov(delta: float) -> void:
+	var velocity_clamped: float = clamp(velocity.length(), 0.5, SPRINT_SPEED * 2)
+	var target_fov: float = BASE_FOV + FOV_CHANGE * velocity_clamped
+	camera.fov = lerp(camera.fov, target_fov, delta * 8.0)
