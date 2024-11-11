@@ -10,19 +10,21 @@ const FOV_CHANGE: float = 1.5
 const BOB_FREQ: float = 3 #2.4
 const BOB_AMP: float =  0.1 #0.08
 const SHOOT_DISTANCE: float = 100.0
+const FIRE_RATE: float = 0.075
 const SHOOT_DAMAGE: int = 10
-const FIRE_RATE: float = 0.1
 
 var speed: float = WALK_SPEED
 var head_bob_timer: float = 0.0
 var can_shoot: bool = true
 var camera_start_pos: Vector3
+var bullet_count: int = 0
 
 @onready var head: Node3D = $Head
 @onready var camera: Camera3D = $Head/Camera3D
 @onready var gun: Node3D = $Head/Camera3D/Gun
 @onready var bullet_scene: PackedScene = preload("res://9mm_bullet.tscn")
 @onready var bullet_spawn_marker: Marker3D = $Head/Camera3D/Gun/BulletSpawnMarker
+@onready var bullet_count_label: Label = $HUD/Stats/bullet_count_label
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED) #keeps mouse in screen during play
@@ -48,8 +50,8 @@ func _physics_process(delta: float) -> void:
 	_handle_movement(delta)
 	_update_head_bob(delta)
 	_update_fov(delta)
-	
 	move_and_slide()
+	bullet_count_label.text = str(bullet_count)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
@@ -78,6 +80,7 @@ func _shoot() -> void:
 	await get_tree().create_timer(FIRE_RATE).timeout
 	can_shoot = true
 	print("Shot fired")
+	bullet_count += 1
 
 # Apply gravity to the character
 func _apply_gravity(delta: float) -> void:
@@ -96,7 +99,7 @@ func _handle_inputs() -> void:
 		velocity.y = JUMP_VELOCITY
 		
 	# Sprinting
-	if Input.is_action_just_pressed("sprint"):
+	if Input.is_action_pressed("sprint"):
 		speed = SPRINT_SPEED
 	else:
 		speed = WALK_SPEED
@@ -109,7 +112,6 @@ func _handle_inputs() -> void:
 func _handle_movement(delta: float) -> void:
 	var input_dir: Vector2 = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
 	var direction: Vector3 = (head.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	
 	if is_on_floor():
 		if direction.length() > 0:
 			velocity.x = direction.x * speed

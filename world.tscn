@@ -77,6 +77,19 @@ transform = Transform3D(-1.60454, 0, 1.2231e-07, 3.63053e-08, 1.32827, 0.362105,
 [node name="BulletSpawnMarker" type="Marker3D" parent="Player/Head/Camera3D/Gun"]
 transform = Transform3D(0.999999, 3.00592e-08, 5.15643e-08, -7.5199e-08, 0.286411, -0.128115, -8.87093e-08, 0.0960595, 0.689875, -0.122202, 0.0090878, 0.551872)
 
+[node name="HUD" type="Node3D" parent="Player"]
+
+[node name="Stats" type="VBoxContainer" parent="Player/HUD"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="bullet_count_text" type="Label" parent="Player/HUD/Stats"]
+layout_mode = 2
+text = "Bullets Fired:"
+
+[node name="bullet_count_label" type="Label" parent="Player/HUD/Stats"]
+layout_mode = 2
+
 [node name="Floor" type="CSGBox3D" parent="."]
 transform = Transform3D(1.836, 0, 0, 0, 65.1974, 0, 0, 0, 1.672, 0, 4.01442, 0)
 material_override = SubResource("StandardMaterial3D_bdn8m")
