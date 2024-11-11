@@ -29,20 +29,6 @@ var bullet_count: int = 0
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED) #keeps mouse in screen during play
 	camera_start_pos = camera.transform.origin #sets cameras home location
-	if not can_shoot:
-		return
-	can_shoot = false
-	# Instance the bullet
-	if bullet_scene:
-		var bullet = bullet_scene.instantiate() as RigidBody3D
-		# Set bullet transform to match the bullet_spawn_marker transform
-		bullet.global_transform = bullet_spawn_marker.global_transform
-		# Add bullet to the scene
-		get_tree().get_current_scene().add_child.call_deferred(bullet)
-	# Start cooldown
-	await get_tree().create_timer(FIRE_RATE).timeout
-	can_shoot = true
-	print("Shot fired")
 
 func _physics_process(delta: float) -> void:
 	_apply_gravity(delta)

@@ -15,10 +15,6 @@ run/main_scene="res://world.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
 
-[display]
-
-window/size/initial_position_type=2
-
 [input]
 
 move_left={

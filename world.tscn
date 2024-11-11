@@ -90,6 +90,15 @@ text = "Bullets Fired:"
 [node name="bullet_count_label" type="Label" parent="Player/HUD/Stats"]
 layout_mode = 2
 
+[node name="health_text" type="Label" parent="Player/HUD/Stats"]
+layout_mode = 2
+text = "Health:"
+
+[node name="health_bar" type="ProgressBar" parent="Player/HUD/Stats"]
+layout_mode = 2
+min_value = 100.0
+value = 100.0
+
 [node name="Floor" type="CSGBox3D" parent="."]
 transform = Transform3D(1.836, 0, 0, 0, 65.1974, 0, 0, 0, 1.672, 0, 4.01442, 0)
 material_override = SubResource("StandardMaterial3D_bdn8m")
