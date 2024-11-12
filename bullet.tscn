@@ -11,15 +11,3 @@ script = ExtResource("1_m5fdt")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.028224, 0, 0, 0, -3.47838e-09, -0.02592, 0, 0.0795758, -1.133e-09, 0, 0, 0)
 mesh = SubResource("CylinderMesh_7ymun")
-
-[node name="9mm_bullet" parent="."]
-_import_path = NodePath("")
-unique_name_in_owner = false
-process_mode = 0
-process_priority = 0
-process_physics_priority = 0
-process_thread_group = 0
-physics_interpolation_mode = 0
-auto_translate_mode = 0
-editor_description = ""
-script = null
