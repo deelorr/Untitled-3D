@@ -10,7 +10,7 @@ const FOV_CHANGE: float = 1.5
 const BOB_FREQ: float = 3 #2.4
 const BOB_AMP: float =  0.1 #0.08
 const SHOOT_DISTANCE: float = 100.0
-const FIRE_RATE: float = 0.075
+const FIRE_RATE: float = 0.2
 const SHOOT_DAMAGE: int = 10
 
 var speed: float = WALK_SPEED
@@ -65,7 +65,6 @@ func _shoot() -> void:
 	# Start cooldown
 	await get_tree().create_timer(FIRE_RATE).timeout
 	can_shoot = true
-	print("Shot fired")
 	bullet_count += 1
 
 # Apply gravity to the character

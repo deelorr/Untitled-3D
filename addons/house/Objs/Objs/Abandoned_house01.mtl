@@ -1,0 +1,97 @@
+# Blender MTL File: 'Abandoned_housePolir.blend'
+# Material Count: 8
+
+newmtl Base_entrace
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Bump -bm 1.800000 C:\\Users\\Arthur\\Documents\\Vendas_Online\\2020\\Abandoned_house\\Textures\\Normal\\Base_entrace.png
+map_Kd C:\\Users\\Arthur\\Documents\\Vendas_Online\\2020\\Abandoned_house\\Textures\\Diffuse\\Base_entrace.png
+
+newmtl Courtyard
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Bump -bm 1.450000 C:\\Users\\Arthur\\Documents\\Vendas_Online\\2020\\Abandoned_house\\Textures\\Normal\\Courtyard.png
+map_Kd C:\\Users\\Arthur\\Documents\\Vendas_Online\\2020\\Abandoned_house\\Textures\\Diffuse\\Courtyard.png
+
+newmtl Left_house
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Bump -bm 1.300000 C:\\Users\\Arthur\\Documents\\Vendas_Online\\2020\\Abandoned_house\\Textures\\Normal\\Left_house.png
+map_Kd C:\\Users\\Arthur\\Documents\\Vendas_Online\\2020\\Abandoned_house\\Textures\\Diffuse\\Left_house.png
+
+newmtl Ornaments
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.086364 0.086364 0.086364
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump -bm 2.000000 C:\\Users\\Arthur\\Documents\\Vendas_Online\\2020\\Abandoned_house\\Textures\\Normal\\Ornaments.png
+map_Kd C:\\Users\\Arthur\\Documents\\Vendas_Online\\2020\\Abandoned_house\\Textures\\Diffuse\\Ornaments.png
+
+newmtl Pipe
+Ns 900.000000
+Ka 0.591667 0.591667 0.591667
+Kd 0.800000 0.800000 0.800000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump -bm 1.100000 C:\\Users\\Arthur\\Documents\\Vendas_Online\\2020\\Abandoned_house\\Textures\\Normal\\Atlas_secret_room.png
+map_Kd C:\\Users\\Arthur\\Documents\\Vendas_Online\\2020\\Abandoned_house\\Textures\\Diffuse\\Atlas_secret_room.png
+
+newmtl R_house
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Bump -bm 1.300000 C:\\Users\\Arthur\\Documents\\Vendas_Online\\2020\\Abandoned_house\\Textures\\Normal\\R_house.png
+map_Kd C:\\Users\\Arthur\\Documents\\Vendas_Online\\2020\\Abandoned_house\\Textures\\Diffuse\\R_house.png
+
+newmtl Room
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.200000 0.200000 0.200000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump -bm 1.500000 C:\\Users\\Arthur\\Documents\\Vendas_Online\\2020\\Abandoned_house\\Textures\\Normal\\Atlas_secret_room.png
+map_Kd C:\\Users\\Arthur\\Documents\\Vendas_Online\\2020\\Abandoned_house\\Textures\\Diffuse\\Atlas_secret_room.png
+
+newmtl Window
+Ns 692.646691
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.177273 0.177273 0.177273
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:\\Users\\Arthur\\Documents\\Vendas_Online\\2020\\Abandoned_house\\Textures\\Diffuse\\Fingerprints01_col.png.001.png

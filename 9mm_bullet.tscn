@@ -1,6 +1,8 @@
-[gd_scene load_steps=8 format=4 uid="uid://dhn0rmf1n5phf"]
+[gd_scene load_steps=13 format=4 uid="uid://dhn0rmf1n5phf"]
 
 [ext_resource type="Script" path="res://bullet.gd" id="1_2omgr"]
+[ext_resource type="Texture2D" uid="uid://ogxsh5od1b2m" path="res://addons/9mm-bullet/textures/Shell_BaseColor.png" id="2_spbet"]
+[ext_resource type="Texture2D" uid="uid://cilqyw6a00d0g" path="res://addons/9mm-bullet/textures/bullet_BaseColor.jpg" id="3_y6ov0"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kmjwx"]
 resource_name = "shell"
@@ -44,6 +46,9 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_2hbm4")
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ddi3d"]
+albedo_texture = ExtResource("2_spbet")
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hoj12"]
 resource_name = "bullet"
 vertex_color_use_as_albedo = true
@@ -86,6 +91,12 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_14ns4")
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wcdhu"]
+albedo_texture = ExtResource("3_y6ov0")
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_255dr"]
+points = PackedVector3Array(-7.13539e-06, -0.000102381, -2.34506e-06, 0.000102381, 0.000202381, 0.000102381, 0.000102381, 0.000202381, -0.000102381, -0.000102381, 0.000202351, 0.000102381, -0.000102381, 0.000202351, -0.000102381, 0.000102381, -2.35483e-06, 0.000102381, 0.000102381, -2.35483e-06, -0.000102381, -0.000102381, -2.35483e-06, 0.000102381, -0.000102381, -2.35483e-06, -0.000102381, 2.36511e-06, -0.000102381, 7.1354e-06, 2.36511e-06, -0.000102381, -7.1354e-06, 0.000102381, -7.12792e-06, 2.34506e-06, -0.000102381, -7.12792e-06, 2.34506e-06, 2.36511e-06, -7.12792e-06, -0.000102381, -2.38514e-06, -7.12792e-06, 0.000102381, 7.11536e-06, -0.000102381, -2.34506e-06, -2.38514e-06, -0.000102381, 7.1354e-06, -2.38514e-06, -0.000102381, -7.1354e-06, 7.11536e-06, -0.000102381, 2.34506e-06, -7.13539e-06, -0.000102381, 2.34506e-06, 2.36511e-06, -7.12792e-06, 0.000102381, -2.38514e-06, -7.12792e-06, -0.000102381, 0.000102381, -7.12792e-06, -2.34506e-06, -0.000102381, -7.12792e-06, -2.34506e-06)
+
 [node name="9mm_bullet" type="RigidBody3D"]
 script = ExtResource("1_2omgr")
 
@@ -93,8 +104,19 @@ script = ExtResource("1_2omgr")
 transform = Transform3D(100, 0, 0, 0, 100, 7.5498e-06, 0, -7.5498e-06, 100, -5.6508e-18, 0.000185305, 0.00233489)
 mesh = SubResource("ArrayMesh_5cuu3")
 skeleton = NodePath("")
+surface_material_override/0 = SubResource("StandardMaterial3D_ddi3d")
 
 [node name="9mm_Bullet" type="MeshInstance3D" parent="."]
 transform = Transform3D(100, 0, 0, 0, -4.37114e-06, 100, 0, -100, -4.37114e-06, -5.47647e-18, 0.000226626, 0.0224351)
 mesh = SubResource("ArrayMesh_grjs1")
 skeleton = NodePath("")
+surface_material_override/0 = SubResource("StandardMaterial3D_wcdhu")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(100, 0, 0, 0, -4.37114e-06, 100, 0, -100, -4.37114e-06, -5.47647e-18, 0.000226626, 0.0224351)
+shape = SubResource("ConvexPolygonShape3D_255dr")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]
