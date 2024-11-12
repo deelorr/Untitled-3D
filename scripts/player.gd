@@ -55,7 +55,7 @@ var current_pitch: float = 0.0                        # Current pitch rotation o
 @onready var head: Node3D = $Head
 @onready var camera: Camera3D = $Head/Camera3D
 @onready var gun: Node3D = $Head/Camera3D/Gun
-@onready var bullet_scene: PackedScene = preload("res://9mm_bullet.tscn")
+@onready var bullet_scene: PackedScene = preload("res://scenes/9mm_bullet.tscn")
 @onready var bullet_spawn_marker: Marker3D = $Head/Camera3D/Gun/BulletSpawnMarker
 @onready var bullet_count_label: Label = $HUD/NinePatchRect/Stats/bullet_count_label
 

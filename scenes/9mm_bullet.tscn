@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=4 uid="uid://dhn0rmf1n5phf"]
 
-[ext_resource type="Script" path="res://bullet.gd" id="1_2omgr"]
+[ext_resource type="Script" path="res://scripts/bullet.gd" id="1_2omgr"]
 [ext_resource type="Texture2D" uid="uid://ogxsh5od1b2m" path="res://addons/9mm-bullet/textures/Shell_BaseColor.png" id="2_spbet"]
 [ext_resource type="Texture2D" uid="uid://cilqyw6a00d0g" path="res://addons/9mm-bullet/textures/bullet_BaseColor.jpg" id="3_y6ov0"]
 

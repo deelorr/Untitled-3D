@@ -1,5 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://b4bjqnv0gci14"]
-
-[ext_resource type="PackedScene" uid="uid://b53433bnoqfxo" path="res://addons/skelleton-character/source/SkullCharacter.fbx" id="1_yi7fp"]
-
-[node name="SkullCharacter" instance=ExtResource("1_yi7fp")]

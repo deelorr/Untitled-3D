@@ -1,10 +1,10 @@
 [gd_scene load_steps=14 format=3 uid="uid://cyapwlxkfmeec"]
 
-[ext_resource type="PackedScene" uid="uid://0qf1vyer3e80" path="res://enemy.tscn" id="1_7ymq6"]
-[ext_resource type="Script" path="res://player.gd" id="1_gtony"]
-[ext_resource type="PackedScene" uid="uid://qsbggkk63fcx" path="res://addons/free-modular-l1a1-slr/source/L1A1_SLR_Skfb.fbx" id="2_y6ghc"]
-[ext_resource type="Texture2D" uid="uid://cl162epe3cj5t" path="res://crosshair032.png" id="4_q67mi"]
-[ext_resource type="Texture2D" uid="uid://571pkuv8ewcp" path="res://bluerect.png" id="4_uvgum"]
+[ext_resource type="PackedScene" uid="uid://0qf1vyer3e80" path="res://scenes/enemy.tscn" id="1_rjjkr"]
+[ext_resource type="Script" path="res://scripts/player.gd" id="2_2e6dy"]
+[ext_resource type="PackedScene" uid="uid://qsbggkk63fcx" path="res://addons/free-modular-l1a1-slr/source/L1A1_SLR_Skfb.fbx" id="3_n33s3"]
+[ext_resource type="Texture2D" uid="uid://571pkuv8ewcp" path="res://art/bluerect.png" id="4_j62cf"]
+[ext_resource type="Texture2D" uid="uid://cl162epe3cj5t" path="res://art/crosshair032.png" id="5_0s20d"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ckqao"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -46,17 +46,17 @@ directional_shadow_fade_start = 0.335
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_yuhtd")
 
-[node name="Enemy" parent="." groups=["enemies"] instance=ExtResource("1_7ymq6")]
+[node name="Enemy" parent="." groups=["enemies"] instance=ExtResource("1_rjjkr")]
 
-[node name="Enemy2" parent="." groups=["enemies"] instance=ExtResource("1_7ymq6")]
+[node name="Enemy2" parent="." groups=["enemies"] instance=ExtResource("1_rjjkr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.95563, 5.55676, -3.07298)
 
-[node name="Enemy3" parent="." groups=["enemies"] instance=ExtResource("1_7ymq6")]
+[node name="Enemy3" parent="." groups=["enemies"] instance=ExtResource("1_rjjkr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.53192, 6.08264, 0.0911064)
 
 [node name="Player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("camera_list")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00549316, 5.0791, 20.4058)
-script = ExtResource("1_gtony")
+script = ExtResource("2_2e6dy")
 camera_list = [NodePath("Head/Camera3D"), NodePath("3rd_person")]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
@@ -71,7 +71,7 @@ shape = SubResource("ConvexPolygonShape3D_gcsdx")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.186573, 1.07544, -0.602707)
 fov = 44.304
 
-[node name="Gun" parent="Player/Head/Camera3D" instance=ExtResource("2_y6ghc")]
+[node name="Gun" parent="Player/Head/Camera3D" instance=ExtResource("3_n33s3")]
 transform = Transform3D(-3, -6.27011e-08, 4.87725e-07, 6.78798e-08, 3.86853, 0.865489, -4.34799e-07, 1.03657, -3.23006, 0.0961819, -1.15086, -0.645332)
 
 [node name="BulletSpawnMarker" type="Marker3D" parent="Player/Head/Camera3D/Gun"]
@@ -83,9 +83,10 @@ transform = Transform3D(0.999999, 1.07977e-08, -1.78104e-07, 1.17e-07, -0.286411
 offset_top = -1.0
 offset_right = 161.0
 offset_bottom = 167.0
-texture = ExtResource("4_uvgum")
+texture = ExtResource("4_j62cf")
 
 [node name="Stats" type="VBoxContainer" parent="Player/HUD/NinePatchRect"]
+layout_mode = 0
 offset_left = 29.0
 offset_top = 28.0
 offset_right = 130.0
@@ -124,66 +125,68 @@ offset_bottom = 64.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("4_q67mi")
+texture = ExtResource("5_0s20d")
 
 [node name="3rd_person" type="Camera3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5527, -0.0874634, 3.40671)
 
-[node name="Box" type="CSGBox3D" parent="."]
+[node name="Stairs" type="StaticBody3D" parent="."]
 transform = Transform3D(4.46116, 0, 0, 0, 5.99983, 0, 0, 0, 2.28542, -0.393849, 6.62131, 0.881483)
+
+[node name="Box" type="CSGBox3D" parent="Stairs"]
 material_override = SubResource("StandardMaterial3D_dp627")
 use_collision = true
 size = Vector3(10.2588, 0.885986, 1)
 
-[node name="Box2" type="CSGBox3D" parent="."]
-transform = Transform3D(4.46116, 0, 0, 0, 4.3443, 0, 0, 0, 2.28542, -0.393849, 6.09588, 3.11516)
+[node name="Box2" type="CSGBox3D" parent="Stairs"]
+transform = Transform3D(1, 0, 0, 0, 0.72407, 0, 0, 0, 1, 0, -0.0875741, 0.97736)
 material_override = SubResource("StandardMaterial3D_dp627")
 use_collision = true
 size = Vector3(10.2588, 0.971191, 1)
 
-[node name="Box3" type="CSGBox3D" parent="."]
-transform = Transform3D(4.48167, 0, 0, 0, 6.7888, 0, 0, 0, 2.29593, -0.393849, 5.55654, 5.41118)
+[node name="Box3" type="CSGBox3D" parent="Stairs"]
+transform = Transform3D(1.0046, 0, 0, 0, 1.1315, 0, 0, 0, 1.0046, 0, -0.177467, 1.982)
 material_override = SubResource("StandardMaterial3D_dp627")
 use_collision = true
 size = Vector3(10.2588, 0.45752, 1)
 
-[node name="Box4" type="CSGBox3D" parent="."]
-transform = Transform3D(4.46116, 0, 0, 0, 11.9965, 0, 0, 0, 2.28542, -0.393849, 5.00833, 7.71208)
+[node name="Box4" type="CSGBox3D" parent="Stairs"]
+transform = Transform3D(1, 0, 0, 0, 1.99947, 0, 0, 0, 1, 0, -0.268838, 2.98877)
 material_override = SubResource("StandardMaterial3D_dp627")
 use_collision = true
 size = Vector3(10.2588, 0.153809, 1)
 
-[node name="Box5" type="CSGBox3D" parent="."]
-transform = Transform3D(4.46116, 0, 0, 0, 11.9965, 0, 0, 0, 2.28542, -0.393849, 4.47156, 9.96745)
+[node name="Box5" type="CSGBox3D" parent="Stairs"]
+transform = Transform3D(1, 0, 0, 0, 1.99947, 0, 0, 0, 1, 0, -0.358302, 3.97562)
 material_override = SubResource("StandardMaterial3D_dp627")
 use_collision = true
 size = Vector3(10.2588, 0.0688477, 1)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
+[node name="Boundaries" type="StaticBody3D" parent="."]
 transform = Transform3D(39.2042, 0, 0, 0, 21.1676, 0, 0, 0, 54.8825, -0.291268, 4, 1.20528)
 
-[node name="Floor" type="CSGBox3D" parent="StaticBody3D"]
+[node name="Floor" type="CSGBox3D" parent="Boundaries"]
 transform = Transform3D(0.0400114, 0, 0, 0, 3.08006, 0, 0, 0, 0.0409563, 0, 0.000681236, 0)
 use_collision = true
 size = Vector3(29, 0.001, 31)
 material = SubResource("StandardMaterial3D_5c5o8")
 
-[node name="CSGBox3D" type="CSGBox3D" parent="StaticBody3D"]
+[node name="CSGBox3D" type="CSGBox3D" parent="Boundaries"]
 transform = Transform3D(0.0142033, 0, 0, 0, 0.336848, 0, 0, 0, 1.25947, -0.569134, 0.170655, 0)
 use_collision = true
 material = SubResource("StandardMaterial3D_puncf")
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="StaticBody3D"]
+[node name="CSGBox3D2" type="CSGBox3D" parent="Boundaries"]
 transform = Transform3D(0.0142033, 0, 0, 0, 0.336848, 0, 0, 0, 1.25947, 0.564087, 0.170655, 0)
 use_collision = true
 material = SubResource("StandardMaterial3D_puncf")
 
-[node name="CSGBox3D3" type="CSGBox3D" parent="StaticBody3D"]
+[node name="CSGBox3D3" type="CSGBox3D" parent="Boundaries"]
 transform = Transform3D(-6.20848e-10, 0, 1.13352, 0, 0.336848, 0, -0.0142033, 0, -4.95477e-08, -0.00252328, 0.170655, 0.612385)
 use_collision = true
 material = SubResource("StandardMaterial3D_puncf")
 
-[node name="CSGBox3D4" type="CSGBox3D" parent="StaticBody3D"]
+[node name="CSGBox3D4" type="CSGBox3D" parent="Boundaries"]
 transform = Transform3D(-6.20848e-10, 0, 1.13352, 0, 0.336848, 0, -0.0142033, 0, -4.95477e-08, -0.00252328, 0.170655, -0.612385)
 use_collision = true
 material = SubResource("StandardMaterial3D_puncf")
