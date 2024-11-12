@@ -37,7 +37,9 @@ const PITCH_LIMIT: float = 80.0  # Maximum vertical look angle in degrees
 # =========================
 var is_aiming: bool = false                          # Is the player currently aiming
 var gun_idle_position: Vector3                       # Gun's default position
-var gun_aim_position: Vector3 = Vector3(0, -0.1, -0.25)  # Gun's aiming position
+#var gun_aim_position: Vector3 = Vector3(0, -0.1, -0.25)  # Gun's aiming position
+var gun_aim_position: Vector3 = Vector3(0, -0.75, -1)  # Gun's aiming position
+
 
 var current_camera_index: int = 0                    # Index of the active camera
 var speed: float = WALK_SPEED                        # Current movement speed
@@ -55,7 +57,7 @@ var current_pitch: float = 0.0                        # Current pitch rotation o
 @onready var gun: Node3D = $Head/Camera3D/Gun
 @onready var bullet_scene: PackedScene = preload("res://9mm_bullet.tscn")
 @onready var bullet_spawn_marker: Marker3D = $Head/Camera3D/Gun/BulletSpawnMarker
-@onready var bullet_count_label: Label = $HUD/Stats/bullet_count_label
+@onready var bullet_count_label: Label = $HUD/NinePatchRect/Stats/bullet_count_label
 
 # =========================
 # Ready Function

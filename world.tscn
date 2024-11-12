@@ -1,8 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://cyapwlxkfmeec"]
+[gd_scene load_steps=14 format=3 uid="uid://cyapwlxkfmeec"]
 
 [ext_resource type="PackedScene" uid="uid://0qf1vyer3e80" path="res://enemy.tscn" id="1_7ymq6"]
 [ext_resource type="Script" path="res://player.gd" id="1_gtony"]
 [ext_resource type="PackedScene" uid="uid://qsbggkk63fcx" path="res://addons/free-modular-l1a1-slr/source/L1A1_SLR_Skfb.fbx" id="2_y6ghc"]
+[ext_resource type="Texture2D" uid="uid://cl162epe3cj5t" path="res://crosshair032.png" id="4_q67mi"]
+[ext_resource type="Texture2D" uid="uid://571pkuv8ewcp" path="res://bluerect.png" id="4_uvgum"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ckqao"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -77,25 +79,52 @@ transform = Transform3D(0.999999, 1.07977e-08, -1.78104e-07, 1.17e-07, -0.286411
 
 [node name="HUD" type="Node3D" parent="Player"]
 
-[node name="Stats" type="VBoxContainer" parent="Player/HUD"]
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="NinePatchRect" type="NinePatchRect" parent="Player/HUD"]
+offset_top = -1.0
+offset_right = 161.0
+offset_bottom = 167.0
+texture = ExtResource("4_uvgum")
 
-[node name="bullet_count_text" type="Label" parent="Player/HUD/Stats"]
+[node name="Stats" type="VBoxContainer" parent="Player/HUD/NinePatchRect"]
+offset_left = 29.0
+offset_top = 28.0
+offset_right = 130.0
+offset_bottom = 136.0
+
+[node name="bullet_count_text" type="Label" parent="Player/HUD/NinePatchRect/Stats"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0.941176, 0.941176, 0.941176, 1)
 text = "Bullets Fired:"
 
-[node name="bullet_count_label" type="Label" parent="Player/HUD/Stats"]
+[node name="bullet_count_label" type="Label" parent="Player/HUD/NinePatchRect/Stats"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 
-[node name="health_text" type="Label" parent="Player/HUD/Stats"]
+[node name="health_text" type="Label" parent="Player/HUD/NinePatchRect/Stats"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Health:"
 
-[node name="health_bar" type="ProgressBar" parent="Player/HUD/Stats"]
+[node name="health_bar" type="ProgressBar" parent="Player/HUD/NinePatchRect/Stats"]
 layout_mode = 2
 min_value = 100.0
 value = 100.0
+
+[node name="TextureRect" type="TextureRect" parent="Player/HUD"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 64.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_q67mi")
 
 [node name="3rd_person" type="Camera3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5527, -0.0874634, 3.40671)
